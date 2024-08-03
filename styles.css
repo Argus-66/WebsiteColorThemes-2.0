@@ -100,6 +100,7 @@ h2 {
 
 h2 {
     text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+    padding: 10px;
 }
 
 /* Cards */
@@ -113,7 +114,9 @@ h2 {
     background-color: inherit;
     color: inherit;
     padding: 2rem;
+    padding-top: 40px;
     margin: 0.5rem;
+    margin-top: 30px;
     height: 250px;
     width: 300px;
     border-radius: 5px;
@@ -135,6 +138,7 @@ h2 {
 .preview-btn {
     padding: 10px 20px;
     margin: 0 0.5rem;
+    margin-top: 10px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
