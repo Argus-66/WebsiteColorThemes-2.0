@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const dropdown = document.querySelector('.dropdown');
     const dropdownContent = document.querySelector('.dropdown-content');
 
-    function applyTheme(primary, secondary) {
+    function applyTheme(primary, secondary, primaryName, secondaryName) {
         document.documentElement.style.setProperty('--primary-color', primary);
         document.documentElement.style.setProperty('--secondary-color', secondary);
         document.body.style.backgroundColor = primary;
@@ -23,7 +23,25 @@ document.addEventListener('DOMContentLoaded', () => {
             selectThemeText.style.color = secondary;
         }
 
+        // Update color info cards
+        updateColorInfo(primary, secondary, primaryName, secondaryName);
+
         setupHoverEffects(primary, secondary);
+    }
+
+    function updateColorInfo(primary, secondary, primaryName, secondaryName) {
+        const primaryCard = document.querySelector('.primary-color');
+        const secondaryCard = document.querySelector('.secondary-color');
+
+        primaryCard.querySelector('.color-name').textContent = primaryName;
+        primaryCard.querySelector('.color-code').textContent = primary;
+        primaryCard.style.backgroundColor = primary;
+        primaryCard.style.color = secondary;
+
+        secondaryCard.querySelector('.color-name').textContent = secondaryName;
+        secondaryCard.querySelector('.color-code').textContent = secondary;
+        secondaryCard.style.backgroundColor = secondary;
+        secondaryCard.style.color = primary;
     }
 
     function setupHoverEffects(primary, secondary) {
@@ -42,7 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Helper function to lighten or darken a color
     function lightenDarkenColor(col, amt) {
         let usePound = false;
         if (col[0] == "#") {
@@ -59,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let g = (num & 0x0000FF) + amt;
         if (g > 255) g = 255;
         else if (g < 0) g = 0;
-        return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
+        return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16).padStart(6, '0');
     }
 
     function saveTheme(theme) {
@@ -73,7 +90,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (themeLink) {
                 const primary = themeLink.getAttribute('data-primary');
                 const secondary = themeLink.getAttribute('data-secondary');
-                applyTheme(primary, secondary);
+                const primaryName = themeLink.getAttribute('data-primary-name') || 'Primary';
+                const secondaryName = themeLink.getAttribute('data-secondary-name') || 'Secondary';
+                applyTheme(primary, secondary, primaryName, secondaryName);
                 dropdownBtn.textContent = themeLink.textContent;
             }
         }
@@ -84,7 +103,9 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             const primary = event.target.getAttribute('data-primary');
             const secondary = event.target.getAttribute('data-secondary');
-            applyTheme(primary, secondary);
+            const primaryName = event.target.getAttribute('data-primary-name') || 'Primary';
+            const secondaryName = event.target.getAttribute('data-secondary-name') || 'Secondary';
+            applyTheme(primary, secondary, primaryName, secondaryName);
             dropdownBtn.textContent = event.target.textContent;
             saveTheme(event.target.getAttribute('data-theme'));
             dropdownContent.style.display = 'none';
@@ -105,7 +126,11 @@ document.addEventListener('DOMContentLoaded', () => {
     loadSavedTheme();
     if (!localStorage.getItem('selectedTheme')) {
         const defaultTheme = dropdownLinks[0];
-        applyTheme(defaultTheme.getAttribute('data-primary'), defaultTheme.getAttribute('data-secondary'));
+        const primary = defaultTheme.getAttribute('data-primary');
+        const secondary = defaultTheme.getAttribute('data-secondary');
+        const primaryName = defaultTheme.getAttribute('data-primary-name') || 'Primary';
+        const secondaryName = defaultTheme.getAttribute('data-secondary-name') || 'Secondary';
+        applyTheme(primary, secondary, primaryName, secondaryName);
         dropdownBtn.textContent = defaultTheme.textContent;
     }
 });
