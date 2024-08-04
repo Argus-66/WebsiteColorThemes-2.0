@@ -129,6 +129,32 @@ h2 {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
+/* Color Codes */
+.color-info {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+}
+
+.color-card {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    width: 45%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.color-card h3 {
+    margin-top: 0;
+}
+
+.color-name, .color-code {
+    margin: 5px 0;
+    font-weight: bold;
+}
+
 /* Bottons */
 .buttons-container {
     display: flex;
